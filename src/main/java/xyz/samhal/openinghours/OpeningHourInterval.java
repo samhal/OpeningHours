@@ -10,6 +10,15 @@ public class OpeningHourInterval {
   private LocalTime openingTime;
   private LocalTime closingTime;
 
+  public OpeningHourInterval(LocalTime from, LocalTime to) {
+    this.openingTime = from;
+    this.closingTime = to;
+  }
+
+  public OpeningHourInterval() {
+
+  }
+
   public LocalTime getOpeningTime() {
     return this.openingTime;
   }

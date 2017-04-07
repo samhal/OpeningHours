@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class OpeningHours {
     private Map<DayOfWeek, OpeningHourInterval> openingHours = new HashMap<>();
-    private Map<LocalDate, OpeningHourInterval> devatingOpeningHours = new HashMap<>();
+    private Map<LocalDate, OpeningHourInterval> deviatingOpeningHours = new HashMap<>();
     public boolean isOpen() {
         return isOpen(LocalDateTime.now());
     }
@@ -24,8 +24,8 @@ public class OpeningHours {
     public boolean isOpen(LocalDateTime dateTime) {
         LocalDate date = dateTime.toLocalDate();
         boolean open = false;
-        if(this.devatingOpeningHours.containsKey(date)){
-            open = this.devatingOpeningHours.get(date).isWithin(dateTime.toLocalTime());
+        if(this.deviatingOpeningHours.containsKey(date)){
+            open = this.deviatingOpeningHours.get(date).isWithin(dateTime.toLocalTime());
         } else {
             DayOfWeek day = date.getDayOfWeek();
             if(this.openingHours.containsKey(day)){
@@ -37,8 +37,8 @@ public class OpeningHours {
 
     public boolean isOpen(LocalDate date) {
         boolean open = false;
-        if(this.devatingOpeningHours.containsKey(date)) {
-            open = this.devatingOpeningHours.get(date).isOpen();
+        if(this.deviatingOpeningHours.containsKey(date)) {
+            open = this.deviatingOpeningHours.get(date).isOpen();
         } else {
             open = isOpen(date.getDayOfWeek());
         }
@@ -57,24 +57,35 @@ public class OpeningHours {
         return open;
     }
     public OpeningHours alwaysOpen(){
-        for (DayOfWeek day : DayOfWeek.values()){
-            addOpeningHour(day, new OpeningHourInterval().alwaysOpen());
+        return always(new OpeningHourInterval().alwaysOpen());
+    }
+
+    public OpeningHours alwaysOpen(LocalTime from, LocalTime to){
+        return always(new OpeningHourInterval(from, to));
+    }
+
+    private OpeningHours always(OpeningHourInterval interval){
+        for (DayOfWeek day : DayOfWeek.values()) {
+            open(day, interval);
         }
         return this;
     }
 
-    public OpeningHours addOpeningHour(DayOfWeek day, LocalTime from, LocalTime to){
-        addOpeningHour(
-            day,
-            new OpeningHourInterval()
-                .setOpeningTime(from)
-                .setClosingTime(to)
-        );
+    public OpeningHours open(DayOfWeek day, LocalTime from, LocalTime to){
+        return open(day, new OpeningHourInterval(from, to));
+    }
+
+    public OpeningHours open(DayOfWeek day, OpeningHourInterval openingHourInterval){
+        this.openingHours.put(day, openingHourInterval);
         return this;
     }
 
-    public OpeningHours addOpeningHour(DayOfWeek day, OpeningHourInterval openingHourInterval){
-        this.openingHours.put(day, openingHourInterval);
+    public OpeningHours open(LocalDate date, LocalTime from, LocalTime to) {
+        return open(date, new OpeningHourInterval(from, to));
+    }
+
+    public OpeningHours open(LocalDate date, OpeningHourInterval interval) {
+        this.deviatingOpeningHours.put(date, interval);
         return this;
     }
 
