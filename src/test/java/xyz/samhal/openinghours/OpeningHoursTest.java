@@ -11,8 +11,8 @@ import static org.junit.Assert.assertTrue;
  */
 public class OpeningHoursTest {
     @Test
-    public testIsOpen(){
-        OpeningHours oh = new OpeningHours();
+    public void testIsOpen(){
+        OpeningHours oh = new OpeningHours().alwaysOpen();
         assertTrue(oh.isOpen());
         assertTrue(oh.isOpen(LocalTime.of(22,45)));
         assertTrue(oh.isOpen(LocalDateTime.of(2017, Month.APRIL, 7, 11, 00)));
