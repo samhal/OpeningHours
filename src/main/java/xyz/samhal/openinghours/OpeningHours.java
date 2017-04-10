@@ -36,7 +36,7 @@ public class OpeningHours {
     }
 
     public boolean isOpen(LocalDate date) {
-        boolean open = false;
+        boolean open;
         if(this.deviatingOpeningHours.containsKey(date)) {
             open = this.deviatingOpeningHours.get(date).isOpen();
         } else {
@@ -86,6 +86,17 @@ public class OpeningHours {
 
     public OpeningHours open(LocalDate date, OpeningHourInterval interval) {
         this.deviatingOpeningHours.put(date, interval);
+        return this;
+    }
+
+    public OpeningHours close(LocalDate date) {
+        return open(date, new OpeningHourInterval().alwaysClosed());
+    }
+
+    public OpeningHours close(DayOfWeek day) {
+        if(this.openingHours.containsKey(day)){
+            this.openingHours.remove(day);
+        }
         return this;
     }
 
