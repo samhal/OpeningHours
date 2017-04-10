@@ -1,12 +1,12 @@
 package xyz.samhal.openinghours;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 /**
  * Created by sam on 4/7/17.
  */
 public class OpeningHourInterval {
+
   private LocalTime openingTime;
   private LocalTime closingTime;
 
@@ -37,15 +37,15 @@ public class OpeningHourInterval {
     return this;
   }
 
-  public boolean isWithin(LocalTime time){
+  public boolean isWithin(LocalTime time) {
     return time.isAfter(this.openingTime) && time.isBefore(this.closingTime);
   }
 
-  public boolean isClosed(){
+  public boolean isClosed() {
     return this.openingTime.equals(LocalTime.MAX) && this.closingTime.equals(LocalTime.MIN);
   }
 
-  public boolean isOpen(){
+  public boolean isOpen() {
     return !isClosed();
   }
 
@@ -54,7 +54,8 @@ public class OpeningHourInterval {
     this.closingTime = LocalTime.MAX;
     return this;
   }
-  public OpeningHourInterval alwaysClosed(){
+
+  public OpeningHourInterval alwaysClosed() {
     this.openingTime = LocalTime.MAX;
     this.closingTime = LocalTime.MIN;
     return this;
