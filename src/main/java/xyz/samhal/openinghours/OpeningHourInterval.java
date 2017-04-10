@@ -2,9 +2,6 @@ package xyz.samhal.openinghours;
 
 import java.time.LocalTime;
 
-/**
- * Created by sam on 4/7/17.
- */
 public class OpeningHourInterval {
 
   private LocalTime openingTime;
