@@ -7,7 +7,7 @@ plugins {
     id "com.jfrog.bintray" version "1.7"
 }
 group 'xyz.samhal'
-version '0.1'
+version '0.2'
 
 apply plugin: 'java'
 
@@ -36,7 +36,7 @@ publishing {
             from components.java
             groupId 'xyz.samhal'
             artifactId 'opening-hours'
-            version '0.1'
+            version '0.2'
         }
     }
 }
@@ -53,7 +53,7 @@ bintray {
         labels = []
         publicDownloadNumbers = false
         version {
-            name = '0.1'
+            name = '0.2'
             desc = ''
         }
     }
