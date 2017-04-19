@@ -4,6 +4,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,6 +70,13 @@ public class OpeningHours {
     return open;
   }
 
+  public boolean isOpen(Date date) {
+    return isOpen(LocalDateTime.ofInstant(
+        date.toInstant(),
+        ZoneId.systemDefault()
+    ));
+  }
+
   /**
    * Checks whether the OpeningHours are open during the specified day of the week.
    * @param day
@@ -107,6 +116,21 @@ public class OpeningHours {
    */
   public OpeningHours alwaysOpen(LocalTime from, LocalTime to) {
     return always(new OpeningHourInterval(from, to));
+  }
+
+  /**
+   * Sets the OpeningHours to be open on all days during the specified times.
+   * @param fromHour
+   * @param fromMinute
+   * @param toHour
+   * @param toMinute
+   * @return
+   */
+  public OpeningHours alwaysOpen(int fromHour, int fromMinute, int toHour, int toMinute) {
+    return alwaysOpen(
+        LocalTime.of(fromHour, fromMinute),
+        LocalTime.of(toHour, toMinute)
+    );
   }
 
   private OpeningHours always(OpeningHourInterval interval) {
